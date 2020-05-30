@@ -6,12 +6,16 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-django = "*"
-python-decouple = "*"
-dj-database-url = "*"
-whitenoise = "*"
-gunicorn = "*"
-psycopg2-binary = "*"
+python-decouple = "==3.3"
+dj-database-url = "==0.5.0"
+whitenoise = "==5.1.0"
+gunicorn = "==20.0.4"
+psycopg2-binary = "==2.8.5"
+asgiref = "==3.2.7"
+django-crispy-forms = "==1.9.1"
+pytz = "==2020.1"
+sqlparse = "==0.3.1"
+Django = "==3.0.6"
 
 [requires]
 python_version = "3.8"
