@@ -1,0 +1,12 @@
+{% extends 'accounts/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+    <form method="post" class="form-sigin">
+        <h1 class="h3 mb-3 font-weight-normal">Авторизация</h1>
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-lg btn-primary btn-block">Войти</button>
+    </form>
+{% endblock main %}

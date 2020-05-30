@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active">Главная</li>
+    </ol>
+</nav>
+{% endblock breadcrumb %}
+
+{% block sidebar %}
+    <div class="card">
+        <article class="card-group-item">
+            <header class="card-header">Фильтр</header>
+            <div class="filter-content">
+                <div class="list-group list-group-flush">
+                    {% if request.path == '/employees/' %}
+                        <a href="{% url 'registry:employees' %}" class="list-group-item active">Все сотрудники</a>
+                    {% else %}
+                        <a href="{% url 'registry:employees' %}" class="list-group-item">Все сотрудники</a>
+                    {% endif %}
+
+                    {% if request.path == '/employees/dismissal' %}
+                        <a href="{% url 'registry:employees-dismissal' %}" class="list-group-item active">Уволенные</a>
+                    {% else %}
+                        <a href="{% url 'registry:employees-dismissal' %}" class="list-group-item">Уволенные</a>
+                    {% endif %}
+
+                    {% if request.path == '/employees/in-vacation' %}
+                        <a href="{% url 'registry:employees-vacation' %}" class="list-group-item active">В отпуске</a>
+                    {% else %}
+                        <a href="{% url 'registry:employees-vacation' %}" class="list-group-item">В отпуске</a>
+                    {% endif %}
+
+                    {% if request.path == '/employees/at-work' %}
+                        <a href="{% url 'registry:employees-at-work' %}" class="list-group-item active">На работе</a>
+                    {% else %}
+                        <a href="{% url 'registry:employees-at-work' %}" class="list-group-item">На работе</a>
+                    {% endif %}
+                </div>
+            </div>
+        </article>
+    </div>
+{% endblock sidebar %}
+
+{% block main %}
+<div class="row">
+    <div class="col">
+        <h2>Сотрудники
+            {% if request.path == '/employees/dismissal' %}уволенные{% endif %}
+
+            {% if request.path == '/employees/in-vacation' %}в отпуске{% endif %}
+
+            {% if request.path == '/employees/at-work' %}на работе{% endif %}
+        </h2>
+        {% if object_list %}
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">ФИО</th>
+                        <th scope="col">Имя пользоватея</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for employee in object_list %}
+                        <tr class="clickable-row"
+                            data-href="{% url 'registry:employee-detail' employee.username %}"
+                            data-toggle="tooltip"
+                            title="{{employee.full_name}}">
+                            <td scope="row">
+                                {{ employee.full_name }}
+                                {% if employee.is_dismissal %}
+                                    <span class="badge badge-warning" title="Уволен {{ employee.dismissal_date }} по приказу {{ employee.dismissal_order }}">Уволен</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ employee.username }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% include 'pagination.html' %}
+        {% else %}
+            <p>Сотрудники не найдены.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock main %}

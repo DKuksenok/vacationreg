@@ -1,1 +1,1 @@
-web: gunicorn vacationregistry.wsgi --log-file -
+web: gunicorn vacationreg.wsgi --log-file -

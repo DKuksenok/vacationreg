@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Главная</a></li>
+        <li class="breadcrumb-item">{{ employee.full_name }}</li>
+    </ol>
+</nav>
+{% endblock breadcrumb %}
+
+{% block main %}
+<div class="row">
+    <div class="col">
+        <h1>
+            {{ employee.full_name }}
+            <a href="/admin/registry/employee/{{employee.id}}/change/"><span class="badge badge-light"><i class="fas fa-user-edit"></i></span></a>
+            {% if employee.is_dismissal %}
+                <span class="badge badge-warning">Уволен</span>
+                <p class="lead">Уовлен c {{ employee.dismissal_date }} на основании {{ employee.dismissal_order }}.</p>
+            {% endif %}
+        </h1>
+        <div class="row">
+            <div class="col">
+                <h3>Отпуска</h3>
+                {% if employee.vacation_set.all %}
+
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Начало</th>
+                            <th scope="col">Конец</th>
+                            <th scope="col">Основание</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for vacation in employee.vacation_set.all %}
+                            <tr>
+                                <td scope="row">{{ vacation.start_date }}</td>
+                                <td>{{ vacation.end_date }}</td>
+                                <td>{{vacation.description}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+                {% else %}
+                    <p>Отпуска не записаны.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h3>Отзывы</h3>
+                {% if employee.vacation_review_set.all %}
+
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Начало</th>
+                            <th scope="col">Конец</th>
+                            <th scope="col">Основание</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for vacation_review in employee.vacation_rewiew_set.all %}
+                            <tr>
+                                <th scope="row">{{ vacation_review.start_date }}</th>
+                                <th>{{ vacation_review.end_date }}</th>
+                                <th>{{vacation_review.description}}</th>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+                {% else %}
+                    <p>Отпуска не записаны.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main %}
